@@ -11,7 +11,7 @@ export default function CalendarApp() {
   return (
     <EventProvider>
       <div className="min-h-screen bg-background">
-        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="fixed top-0 w-full z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-10 items-center">
             <div className="container flex h-10 items-center pl-5">
               <a className="flex items-center space-x-2" href="/">
