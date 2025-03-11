@@ -57,7 +57,7 @@ export function CalendarView({ view, setView, selectedDate, setSelectedDate }: C
   }
 
   return (
-    <div className="space-y-4 pt-16">
+    <div className="space-y-4 pt-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           {view !== "year" && (
