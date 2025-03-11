@@ -2,11 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Forte Sales Calendar',
+  description: 'The sales calendar for Forte Healthcare Sales team. This calendar allows the team to create and communicate their events for each day, and other things.',
 }
-
+  
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,3 +17,4 @@ export default function RootLayout({
     </html>
   )
 }
+<body className="pt-16">
