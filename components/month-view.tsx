@@ -82,11 +82,12 @@ export function MonthView({ date, onSelectDay }: MonthViewProps) {
                 {dayEvents.slice(0, 3).map((event, i) => (
                   <div
                     key={i}
-                    className="text-xs truncate rounded px-1 py-0.5"
-                    style={{ backgroundColor: `${event.color}20`, color: event.color }}
+                    className="truncate rounded px-1 py-0.5"
+                    style={{ fontSize: "30px", backgroundColor: `${event.color}20`, color: event.color }}
                   >
                     {event.title}
                   </div>
+
                 ))}
 
                 {dayEvents.length > 3 && (
