@@ -24,6 +24,7 @@ const colorOptions = [
   { name: "Katie", value: "#ec4899" },
   { name: "Hugh", value: "#14b8a6" },
   { name: "Bradley ", value: "#000000" },
+  { name: "Crystal", value: "#f97316" },
 ]
 
 export function EventForm({ date, onClose }: EventFormProps) {
