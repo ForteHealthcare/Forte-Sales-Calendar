@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 
 interface MonthViewProps {
   date: Date
-  secondDate: Date // Add secondDate as a prop
+  secondDate: Date // second date for comparison
   onSelectDay: (day: number) => void
 }
 
@@ -17,11 +17,13 @@ export function MonthView({ date, secondDate, onSelectDay }: MonthViewProps) {
   const end = endOfMonth(date)
   const days = eachDayOfInterval({ start, end })
 
+  // Get the first weekday of the month (skip weekends)
   let firstWeekday = start
   while (getDay(firstWeekday) === 0 || getDay(firstWeekday) === 6) {
     firstWeekday = addDays(firstWeekday, 1)
   }
 
+  // Generate weekdays only
   let daysToDisplay = []
   let currentDay = firstWeekday
 
@@ -32,11 +34,14 @@ export function MonthView({ date, secondDate, onSelectDay }: MonthViewProps) {
     currentDay = addDays(currentDay, 1)
   }
 
+  // Function to get events for a specific day
   const getEventsForDay = (day: Date) => {
     const dayStr = format(day, "yyyy-MM-dd")
-    return events.filter((event) =>
-      [dayStr, format(secondDate, "yyyy-MM-dd")].includes(format(new Date(event.date), "yyyy-MM-dd"))
-    )
+    const secondDateStr = format(secondDate, "yyyy-MM-dd")
+    return events.filter((event) => {
+      const eventDateStr = format(new Date(event.date), "yyyy-MM-dd")
+      return eventDateStr === dayStr || eventDateStr === secondDateStr
+    })
   }
 
   return (
