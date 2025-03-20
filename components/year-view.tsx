@@ -15,19 +15,21 @@ import { EventContext } from "@/components/event-context"
 
 interface YearViewProps {
   year: number
+  secondDate: Date // Add secondDate as a prop
   onSelectMonth: (month: number) => void
 }
 
-export function YearView({ year, onSelectMonth }: YearViewProps) {
+export function YearView({ year, secondDate, onSelectMonth }: YearViewProps) {
   const { events } = useContext(EventContext)
   const start = startOfYear(new Date(year, 0, 1))
   const end = endOfYear(new Date(year, 0, 1))
   const months = eachMonthOfInterval({ start, end })
 
-  // Function to get events for a specific day
   const getEventsForDay = (date: Date) => {
     const dateStr = format(date, "yyyy-MM-dd")
-    return events.filter((event) => format(new Date(event.date), "yyyy-MM-dd") === dateStr)
+    return events.filter((event) =>
+      [dateStr, format(secondDate, "yyyy-MM-dd")].includes(format(new Date(event.date), "yyyy-MM-dd"))
+    )
   }
 
   return (
@@ -36,12 +38,10 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
         const daysInMonth = getDaysInMonth(month)
         const firstDayOfMonth = startOfMonth(month)
 
-        // Create array for days of the month (excluding weekends)
         const days = []
 
         for (let i = 1; i <= daysInMonth; i++) {
           const date = new Date(year, month.getMonth(), i)
-          // Only include weekdays (Monday to Friday)
           if (!isWeekend(date)) {
             days.push(date)
           }
@@ -64,7 +64,6 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
               {days.map((day) => {
                 const dayEvents = getEventsForDay(day)
                 const dayOfWeek = getDay(day)
-                // Adjust for Monday as first day (0 = Sunday, 1 = Monday, etc.)
                 const adjustedDayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1
 
                 return (
@@ -101,4 +100,3 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
     </div>
   )
 }
-
