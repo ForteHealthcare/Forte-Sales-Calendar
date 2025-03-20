@@ -16,13 +16,13 @@ interface EventFormProps {
 }
 
 const colorOptions = [
-  { name: "Red", value: "#ef4444" },
+  { name: "Office", value: "#ef4444" },
   { name: "Bradley", value: "#3b82f6" },
   { name: "Denver", value: "#22c55e" },
-  { name: "Purple", value: "#a855f7" },
-  { name: "Orange", value: "#f97316" },
-  { name: "Pink", value: "#ec4899" },
-  { name: "Teal", value: "#14b8a6" },
+  { name: "Greg", value: "#a855f7" },
+  { name: "Nigel", value: "#f97316" },
+  { name: "Katie", value: "#ec4899" },
+  { name: "Hugh", value: "#14b8a6" },
   { name: "Bradley ", value: "#000000" },
 ]
 
