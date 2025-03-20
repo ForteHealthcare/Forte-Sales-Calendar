@@ -17,12 +17,13 @@ interface EventFormProps {
 
 const colorOptions = [
   { name: "Red", value: "#ef4444" },
-  { name: "Blue", value: "#3b82f6" },
-  { name: "Green", value: "#22c55e" },
+  { name: "Bradley", value: "#3b82f6" },
+  { name: "Denver", value: "#22c55e" },
   { name: "Purple", value: "#a855f7" },
   { name: "Orange", value: "#f97316" },
   { name: "Pink", value: "#ec4899" },
   { name: "Teal", value: "#14b8a6" },
+  { name: "Bradley", value: "#000000" },
 ]
 
 export function EventForm({ date, onClose }: EventFormProps) {
@@ -78,11 +79,6 @@ export function EventForm({ date, onClose }: EventFormProps) {
       <div className="space-y-2">
         <Label htmlFor="description">Description (Optional)</Label>
         <Textarea id="description" name="description" value={formData.description} onChange={handleChange} rows={3} />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="createdBy">Created By</Label>
-        <Input id="createdBy" name="createdBy" value={formData.createdBy} onChange={handleChange} required />
       </div>
 
       <div className="space-y-2">
