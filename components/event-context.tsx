@@ -6,7 +6,8 @@ export interface Event {
   id: string // <-- Add an ID
   title: string
   description?: string
-  date: string
+  startDate: string  
+  endDate: string    
   createdBy: string
   color: string
 }
