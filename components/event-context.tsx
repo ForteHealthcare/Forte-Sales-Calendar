@@ -3,6 +3,7 @@
 import { createContext, useState, useEffect, type ReactNode } from "react"
 
 export interface Event {
+  id: string // <-- Add an ID
   title: string
   description?: string
   date: string
@@ -12,8 +13,8 @@ export interface Event {
 
 interface EventContextType {
   events: Event[]
-  addEvent: (event: Event) => void
-  removeEvent: (index: number) => void
+  addEvent: (event: Omit<Event, "id">) => void
+  removeEvent: (id: string) => void // <-- Remove by ID
 }
 
 export const EventContext = createContext<EventContextType>({
@@ -29,7 +30,6 @@ interface EventProviderProps {
 export function EventProvider({ children }: EventProviderProps) {
   const [events, setEvents] = useState<Event[]>([])
 
-  // Load events from localStorage on component mount
   useEffect(() => {
     const storedEvents = localStorage.getItem("calendarEvents")
     if (storedEvents) {
@@ -41,19 +41,18 @@ export function EventProvider({ children }: EventProviderProps) {
     }
   }, [])
 
-  // Save events to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("calendarEvents", JSON.stringify(events))
   }, [events])
 
-  const addEvent = (event: Event) => {
-    setEvents((prev) => [...prev, event])
+  const addEvent = (event: Omit<Event, "id">) => {
+    const newEvent = { ...event, id: crypto.randomUUID() } // <-- Generate unique ID
+    setEvents((prev) => [...prev, newEvent])
   }
 
-  const removeEvent = (index: number) => {
-    setEvents((prev) => prev.filter((_, i) => i !== index))
+  const removeEvent = (id: string) => {
+    setEvents((prev) => prev.filter((event) => event.id !== id))
   }
 
   return <EventContext.Provider value={{ events, addEvent, removeEvent }}>{children}</EventContext.Provider>
 }
-
