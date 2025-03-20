@@ -16,10 +16,14 @@ export function DayView({ date }: DayViewProps) {
   const { events, removeEvent } = useContext(EventContext)
   const [open, setOpen] = useState(false)
 
-  const dayEvents = events.filter((event) => format(new Date(event.date), "yyyy-MM-dd") === format(date, "yyyy-MM-dd"))
+  const dayEvents = events.filter((event) => {
+    const eventStart = new Date(event.startDate)
+    const eventEnd = new Date(event.endDate)
+    return eventStart <= date && eventEnd >= date // Check if date is within the event range
+  })
 
   const sortedEvents = [...dayEvents].sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime()
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   })
 
   return (
@@ -53,15 +57,14 @@ export function DayView({ date }: DayViewProps) {
             >
               <div>
                 <h3 className="font-medium">{event.title}</h3>
-                <p className="text-sm text-muted-foreground">{format(new Date(event.date), "h:mm a")}</p>
+                <p className="text-sm text-muted-foreground">{format(new Date(event.startDate), "h:mm a")} - {format(new Date(event.endDate), "h:mm a")}</p>
                 {event.description && <p className="mt-2 text-sm">{event.description}</p>}
               </div>
 
-              {/* DELETE BUTTON */}
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => removeEvent(event.id)} // <-- Delete by ID
+                onClick={() => removeEvent(event.id)}
               >
                 <Trash className="h-4 w-4 text-red-500" />
               </Button>
