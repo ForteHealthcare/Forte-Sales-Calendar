@@ -1,7 +1,4 @@
-"use client"
-
 import type React from "react"
-
 import { useContext, useState } from "react"
 import { EventContext } from "@/components/event-context"
 import { Button } from "@/components/ui/button"
@@ -23,7 +20,7 @@ const colorOptions = [
   { name: "Nigel", value: "#f97316" },
   { name: "Katie", value: "#ec4899" },
   { name: "Hugh", value: "#14b8a6" },
-  { name: "Bradley ", value: "#000000" },
+  { name: "Bradley", value: "#000000" },
   { name: "Crystal", value: "#fff200" },
 ]
 
@@ -35,6 +32,8 @@ export function EventForm({ date, onClose }: EventFormProps) {
     createdBy: "",
     color: colorOptions[0].value,
     time: "12:00",
+    startDate: format(date, "yyyy-MM-dd"),
+    endDate: format(date, "yyyy-MM-dd"),
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -45,17 +44,23 @@ export function EventForm({ date, onClose }: EventFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Create a date object with the selected date and time
-    const [hours, minutes] = formData.time.split(":").map(Number)
-    const eventDate = new Date(date)
-    eventDate.setHours(hours, minutes)
+    // Create a date object with the selected start and end dates and times
+    const [startHours, startMinutes] = formData.time.split(":").map(Number)
+    const startEventDate = new Date(formData.startDate)
+    startEventDate.setHours(startHours, startMinutes)
+
+    const [endHours, endMinutes] = formData.time.split(":").map(Number)
+    const endEventDate = new Date(formData.endDate)
+    endEventDate.setHours(endHours, endMinutes)
 
     addEvent({
       title: formData.title,
       description: formData.description,
-      date: eventDate.toISOString(),
+      date: startEventDate.toISOString(),
       createdBy: formData.createdBy,
       color: formData.color,
+      startDate: startEventDate.toISOString(),
+      endDate: endEventDate.toISOString(),
     })
 
     onClose()
@@ -75,6 +80,30 @@ export function EventForm({ date, onClose }: EventFormProps) {
       <div className="space-y-2">
         <Label htmlFor="time">Time</Label>
         <Input id="time" name="time" type="time" value={formData.time} onChange={handleChange} required />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="startDate">Start Date</Label>
+        <Input
+          id="startDate"
+          name="startDate"
+          type="date"
+          value={formData.startDate}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="endDate">End Date</Label>
+        <Input
+          id="endDate"
+          name="endDate"
+          type="date"
+          value={formData.endDate}
+          onChange={handleChange}
+          required
+        />
       </div>
 
       <div className="space-y-2">
@@ -121,4 +150,3 @@ export function EventForm({ date, onClose }: EventFormProps) {
     </form>
   )
 }
-
