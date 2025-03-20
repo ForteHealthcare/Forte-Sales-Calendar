@@ -23,7 +23,7 @@ const colorOptions = [
   { name: "Orange", value: "#f97316" },
   { name: "Pink", value: "#ec4899" },
   { name: "Teal", value: "#14b8a6" },
-  { name: "Bradley", value: "#000000" },
+  { name: "Bradley ", value: "#000000" },
 ]
 
 export function EventForm({ date, onClose }: EventFormProps) {
