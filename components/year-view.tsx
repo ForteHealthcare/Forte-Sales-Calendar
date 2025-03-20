@@ -15,7 +15,7 @@ import { EventContext } from "@/components/event-context"
 
 interface YearViewProps {
   year: number
-  secondDate: Date // Add secondDate as a prop
+  secondDate: Date // second date for comparison
   onSelectMonth: (month: number) => void
 }
 
@@ -25,15 +25,18 @@ export function YearView({ year, secondDate, onSelectMonth }: YearViewProps) {
   const end = endOfYear(new Date(year, 0, 1))
   const months = eachMonthOfInterval({ start, end })
 
+  // Function to get events for a specific day
   const getEventsForDay = (date: Date) => {
     const dateStr = format(date, "yyyy-MM-dd")
-    return events.filter((event) =>
-      [dateStr, format(secondDate, "yyyy-MM-dd")].includes(format(new Date(event.date), "yyyy-MM-dd"))
-    )
+    const secondDateStr = format(secondDate, "yyyy-MM-dd")
+    return events.filter((event) => {
+      const eventDateStr = format(new Date(event.date), "yyyy-MM-dd")
+      return eventDateStr === dateStr || eventDateStr === secondDateStr
+    })
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2"> 
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2">
       {months.map((month) => {
         const daysInMonth = getDaysInMonth(month)
         const firstDayOfMonth = startOfMonth(month)
