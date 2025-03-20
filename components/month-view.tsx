@@ -83,7 +83,7 @@ export function MonthView({ date, onSelectDay }: MonthViewProps) {
                   <div
                     key={i}
                     className="truncate rounded px-1 py-0.5"
-                    style={{ fontSize: "30px", backgroundColor: `${event.color}20`, color: event.color }}
+                    style={{ fontSize: "20px", backgroundColor: `${event.color}20`, color: event.color }}
                   >
                     {event.title}
                   </div>
