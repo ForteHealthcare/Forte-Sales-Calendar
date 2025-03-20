@@ -4,7 +4,7 @@ import { useContext, useState } from "react"
 import { format } from "date-fns"
 import { EventContext } from "@/components/event-context"
 import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, Trash } from "lucide-react"
 import { EventForm } from "@/components/event-form"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
@@ -13,7 +13,7 @@ interface DayViewProps {
 }
 
 export function DayView({ date }: DayViewProps) {
-  const { events } = useContext(EventContext)
+  const { events, removeEvent } = useContext(EventContext)  // <-- Get removeEvent from context
   const [open, setOpen] = useState(false)
 
   // Get events for the selected day
@@ -50,19 +50,23 @@ export function DayView({ date }: DayViewProps) {
           {sortedEvents.map((event, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg border"
+              className="p-4 rounded-lg border flex justify-between items-start"
               style={{ borderLeftColor: event.color, borderLeftWidth: "4px" }}
             >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-medium">{event.title}</h3>
-                  <p className="text-sm text-muted-foreground">{format(new Date(event.date), "h:mm a")}</p>
-                  {event.description && <p className="mt-2 text-sm">{event.description}</p>}
-                </div>
-                <div className="flex items-center text-sm" style={{ color: event.color }}>
-                  <span className="font-medium">{event.createdBy}</span>
-                </div>
+              <div>
+                <h3 className="font-medium">{event.title}</h3>
+                <p className="text-sm text-muted-foreground">{format(new Date(event.date), "h:mm a")}</p>
+                {event.description && <p className="mt-2 text-sm">{event.description}</p>}
               </div>
+
+              {/* DELETE BUTTON */}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => removeEvent(index)} // <-- Call removeEvent when clicked
+              >
+                <Trash className="h-4 w-4 text-red-500" />
+              </Button>
             </div>
           ))}
         </div>
@@ -70,4 +74,3 @@ export function DayView({ date }: DayViewProps) {
     </div>
   )
 }
-
