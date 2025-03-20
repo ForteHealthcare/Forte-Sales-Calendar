@@ -1,8 +1,9 @@
-import { useContext, useState } from "react"
-import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameMonth, getDay, addDays, isSameDay, isWeekend } from "date-fns"
+"use client"
+
+import { useContext } from "react"
+import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameMonth, getDay, addDays, isSameDay } from "date-fns"
 import { EventContext } from "@/components/event-context"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"  // Import a button (modify as needed)
 
 interface MonthViewProps {
   date: Date
@@ -11,40 +12,25 @@ interface MonthViewProps {
 
 export function MonthView({ date, onSelectDay }: MonthViewProps) {
   const { events } = useContext(EventContext)
-  const [showWeekends, setShowWeekends] = useState(true)  // Toggle state
-
   const start = startOfMonth(date)
   const end = endOfMonth(date)
   const days = eachDayOfInterval({ start, end })
 
-  // Get the day of the week for the first day of the month (0 = Sunday, 6 = Saturday)
-  const startingDayOfWeek = getDay(start)
-
-  // Create array for all days to display including days from previous/next month to fill the grid
-  let daysToDisplay = []
-
-  // Add days from previous month
-  for (let i = 0; i < startingDayOfWeek; i++) {
-    const prevDay = addDays(start, -startingDayOfWeek + i)
-    if (showWeekends || (!showWeekends && !isWeekend(prevDay))) {
-      daysToDisplay.push(prevDay)
-    }
+  // Get the first weekday of the month (skip weekends)
+  let firstWeekday = start
+  while (getDay(firstWeekday) === 0 || getDay(firstWeekday) === 6) {
+    firstWeekday = addDays(firstWeekday, 1)
   }
 
-  // Add days from current month
-  days.forEach((day) => {
-    if (showWeekends || (!showWeekends && !isWeekend(day))) {
-      daysToDisplay.push(day)
-    }
-  })
+  // Generate weekdays only
+  let daysToDisplay = []
+  let currentDay = firstWeekday
 
-  // Add days from next month to complete the grid (6 rows of 7 days = 42 cells)
-  let remainingDays = 42 - daysToDisplay.length
-  for (let i = 1; i <= remainingDays; i++) {
-    const nextDay = addDays(end, i)
-    if (showWeekends || (!showWeekends && !isWeekend(nextDay))) {
-      daysToDisplay.push(nextDay)
+  while (currentDay <= end) {
+    if (getDay(currentDay) !== 0 && getDay(currentDay) !== 6) {
+      daysToDisplay.push(currentDay)
     }
+    currentDay = addDays(currentDay, 1)
   }
 
   // Function to get events for a specific day
@@ -55,17 +41,10 @@ export function MonthView({ date, onSelectDay }: MonthViewProps) {
 
   return (
     <div className="border rounded-lg overflow-hidden">
-      {/* Toggle Button */}
-      <div className="p-2">
-        <Button onClick={() => setShowWeekends(!showWeekends)}>
-          {showWeekends ? "Hide Weekends" : "Show Weekends"}
-        </Button>
-      </div>
-
       <div className="grid grid-cols-5 bg-muted">
-        {["Mo", "Tu", "We", "Th", "Fr"].map((day) => (
+        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day) => (
           <div key={day} className="py-2 text-center font-medium text-sm">
-            {day}
+            {day.slice(0, 3)}
           </div>
         ))}
       </div>
@@ -96,8 +75,8 @@ export function MonthView({ date, onSelectDay }: MonthViewProps) {
                 {dayEvents.slice(0, 3).map((event, i) => (
                   <div
                     key={i}
-                    className="text-sm truncate rounded px-1 py-0.5"
-                    style={{ backgroundColor: `${event.color}20`, color: event.color }}
+                    className="truncate rounded px-1 py-0.5"
+                    style={{ fontSize: "20px", backgroundColor: `${event.color}20`, color: event.color }}
                   >
                     {event.title}
                   </div>
