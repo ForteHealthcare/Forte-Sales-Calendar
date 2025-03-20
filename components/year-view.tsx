@@ -79,7 +79,7 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
                         {dayEvents.slice(0, 2).map((event, i) => (
                           <div
                             key={i}
-                            className="text-[8px] truncate rounded px-0.5"
+                            className="text-[20px] truncate rounded px-0.5"
                             style={{ backgroundColor: `${event.color}20`, color: event.color }}
                             title={event.title}
                           >
