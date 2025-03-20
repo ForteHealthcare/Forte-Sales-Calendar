@@ -70,10 +70,10 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
                 return (
                   <div
                     key={`day-${day.getDate()}`}
-                    className="min-h-[40px] p-1"
+                    className="min-h-[20px] p-1"
                     style={{ gridColumnStart: day.getDate() === 1 ? adjustedDayOfWeek + 1 : undefined }}
                   >
-                    <div className="text-[19px] text-muted-foreground mb-0.5">{day.getDate()}</div>
+                    <div className="text-[10px] text-muted-foreground mb-0.5">{day.getDate()}</div>
                     {dayEvents.length > 0 && (
                       <div className="space-y-0.5">
                         {dayEvents.slice(0, 2).map((event, i) => (
