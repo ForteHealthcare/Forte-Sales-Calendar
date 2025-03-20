@@ -53,7 +53,7 @@ export function YearView({ year, onSelectMonth }: YearViewProps) {
             className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
             onClick={() => onSelectMonth(month.getMonth())}
           >
-            <h4 className="font-medium text-lg mb-2">{format(month, "MMMM")}</h4>
+            <h7 className="font-medium text-lg mb-2">{format(month, "MMMM")}</h7>
             <div className="grid grid-cols-5 gap-1 text-xs">
               {["Mo", "Tu", "We", "Th", "Fr"].map((day) => (
                 <div key={day} className="text-center font-medium text-muted-foreground">
