@@ -13,13 +13,11 @@ interface DayViewProps {
 }
 
 export function DayView({ date }: DayViewProps) {
-  const { events, removeEvent } = useContext(EventContext)  // <-- Get removeEvent from context
+  const { events, removeEvent } = useContext(EventContext)
   const [open, setOpen] = useState(false)
 
-  // Get events for the selected day
   const dayEvents = events.filter((event) => format(new Date(event.date), "yyyy-MM-dd") === format(date, "yyyy-MM-dd"))
 
-  // Sort events by time
   const sortedEvents = [...dayEvents].sort((a, b) => {
     return new Date(a.date).getTime() - new Date(b.date).getTime()
   })
@@ -47,9 +45,9 @@ export function DayView({ date }: DayViewProps) {
         </div>
       ) : (
         <div className="space-y-3">
-          {sortedEvents.map((event, index) => (
+          {sortedEvents.map((event) => (
             <div
-              key={index}
+              key={event.id}
               className="p-4 rounded-lg border flex justify-between items-start"
               style={{ borderLeftColor: event.color, borderLeftWidth: "4px" }}
             >
@@ -63,7 +61,7 @@ export function DayView({ date }: DayViewProps) {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => removeEvent(index)} // <-- Call removeEvent when clicked
+                onClick={() => removeEvent(event.id)} // <-- Delete by ID
               >
                 <Trash className="h-4 w-4 text-red-500" />
               </Button>
